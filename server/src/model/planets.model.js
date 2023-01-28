@@ -14,10 +14,7 @@ async function loadAllPlanets() {
         fileStream.pipe(parse({
             comment: '#',
             columns: true
-        }))
-
-
-        fileStream.on("data", (data) => {
+        })).on("data", (data) => {
             if (isHabitable(data)) {
                 habitablePlanets.push(data)
             }
