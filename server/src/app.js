@@ -1,5 +1,5 @@
-const express = require("express");
-const cors = require('cors');
+const express = require("express")
+const cors = require('cors')
 const planetsRouter = require('./routesAndControllers/planets/planets.router')
 const path = require('path') 
 const morgan = require('morgan')
@@ -7,10 +7,10 @@ const morgan = require('morgan')
 
 const app = express()
 
-app.use(morgan('tiny'))
 app.use(cors({
     origin: "http://localhost:3000" // url of the client
 }))
+app.use(morgan('tiny'))
 
 app.use( express.static(path.resolve(__dirname, '..', 'public')))
 console.log(__dirname);
