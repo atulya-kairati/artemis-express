@@ -1,6 +1,8 @@
 const launchesRouter = require('express').Router()
-const { getAllLaunches } = require('./launches.controller')
+const validateLaunch = require('../../middlewares/launchPostValidator.middleware')
+const { httpGetAllLaunches, httpPostNewLaunch } = require('./launches.controller')
 
-launchesRouter.get('/launches', getAllLaunches)
+launchesRouter.get('/launches', httpGetAllLaunches)
+launchesRouter.post('/launches',validateLaunch, httpPostNewLaunch)
 
 module.exports = launchesRouter
