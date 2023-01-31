@@ -36,7 +36,7 @@ function addNewLaunch(launch) {
             success: true,
         })
     )
-    console.log(launches);
+    return launch
 }
 
 function abortLaunch(id) {

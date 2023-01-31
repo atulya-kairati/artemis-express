@@ -6,8 +6,8 @@ function httpGetAllLaunches(req, res) {
 
 function httpPostNewLaunch(req, res){
     
-    addNewLaunch(req.body)
-    res.status(200).json({success: true})
+    const newLaunch = addNewLaunch(req.body)
+    res.status(201).json(newLaunch)
 }
 
 function httpAbortLaunch(req, res){
