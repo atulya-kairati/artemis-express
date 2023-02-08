@@ -44,6 +44,8 @@ mongoose.connection.once('open', () => {
 ```
 - Listen for errors.
 ```js
-
+mongoose.connection.on('error', (error) => {
+    console.error(error);
+});
 ```
 
