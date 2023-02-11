@@ -49,3 +49,27 @@ mongoose.connection.on('error', (error) => {
 });
 ```
 
+#### Creating Schema
+
+```js 
+const launchSchema = new mongoose.Schema({
+    flightNumber: {
+        type: Number,
+        required: true,
+        min: 69,
+        max: 420,
+    },
+    mission: {
+        type: String,
+        required: true
+    },
+    ...
+    ...
+});
+```
+
+##### Creating model from schema
+```js
+// connects launchSchema with "launches" collection
+const launchesModel = mongoose.model('Launch', launchSchema); // The name given is lowercased then pluralized by mongo
+```
