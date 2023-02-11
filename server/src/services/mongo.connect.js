@@ -10,13 +10,18 @@ mongoose.connection.on('error', (error) => {
     console.error(error);
 });
 
-function connectToMongoCluster() {
+async function connectToMongoCluster() {
     
     mongoose.set("strictQuery", false); // follows schema strictly when true
-    mongoose.connect(MONGO_URL, {});
+    await mongoose.connect(MONGO_URL, {});
 
+}
+
+async function disconnectMongo(){
+    await mongoose.disconnect();
 }
 
 module.exports = {
     connectToMongoCluster,
+    disconnectMongo
 }
