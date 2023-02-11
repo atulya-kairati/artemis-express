@@ -1,21 +1,6 @@
 const launchesdb = require('./launches.mongo');
 const { doesPlanetExist } = require('./planets.model');
 
-const launches = new Map()
-
-
-const launch = {
-    flightNumber: 100,
-    mission: "Manus Explorer Z",
-    rocket: "Pointy halal rocket",
-    launchDate: new Date('April 1, 2069'),
-    target: 'Kepler-442 b',
-    customers: ["colgate", "pepsi"],
-    upcoming: true,
-    success: true,
-}
-
-launches.set(launch.flightNumber, launch)
 
 async function saveLaunch(launch) {
 
@@ -36,7 +21,6 @@ async function saveLaunch(launch) {
     )
 }
 
-saveLaunch(launch);
 
 async function doesLaunchExist(flightNumber) {
     return !! await launchesdb.findOne({flightNumber});
