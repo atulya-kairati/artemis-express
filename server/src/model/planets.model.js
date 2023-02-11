@@ -37,7 +37,11 @@ const isHabitable = (planet) =>
     planet['koi_prad'] < 1.6;
 
 async function getAllPlanets() {
-    return await planets.find({});
+    return await planets.find({}, {
+        // excluding data we don't need
+        _id: 0,
+        __v: 0,
+    });
 }
 
 async function savePlanet(planet){
