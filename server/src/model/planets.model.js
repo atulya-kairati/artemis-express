@@ -52,4 +52,9 @@ async function savePlanet(planet){
     );
 }
 
-module.exports = { getAllPlanets, loadAllPlanets }
+async function doesPlanetExist(planetName) {
+    const planet = await planets.findOne({keplerName: planetName});
+    return !!planet;
+}
+
+module.exports = { getAllPlanets, loadAllPlanets, doesPlanetExist }

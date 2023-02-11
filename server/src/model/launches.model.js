@@ -1,6 +1,8 @@
+const launchesdb = require('./launches.mongo');
+const { doesPlanetExist } = require('./planets.model');
+
 const launches = new Map()
 
-let newflightNumber = 100;
 
 const launch = {
     flightNumber: 100,
@@ -15,44 +17,79 @@ const launch = {
 
 launches.set(launch.flightNumber, launch)
 
-function doesLaunchExist(id) {
-    return launches.has(id)
+async function saveLaunch(launch) {
+
+    const planetExist = await doesPlanetExist(launch.target);
+
+    if  (! planetExist) { 
+        throw new Error("Target planet doesn't exist");
+    }
+
+    await launchesdb.findOneAndUpdate(
+        {
+            flightNumber: launch.flightNumber,
+        },
+        launch,
+        {
+            upsert: true,
+        }
+    )
 }
 
-function getAllLaunches() {
-    return Array.from(launches.values())
+saveLaunch(launch);
+
+async function doesLaunchExist(flightNumber) {
+    return !! await launchesdb.findOne({flightNumber});
 }
 
-function addNewLaunch(launch) {
-    newflightNumber++;
+async function getAllLaunches() {
+    return await launchesdb.find({}, { _id: 0, __v: 0 });
+}
+
+async function addNewLaunch(launch) {
 
     launch.launchDate = new Date(launch.launchDate)
-    launches.set(
-        newflightNumber,
+
+    await saveLaunch(
         Object.assign(launch, {
-            flightNumber: newflightNumber,
+            flightNumber: await getLatestFlightNumber() + 1,
             customers: ["colgate", "pepsi"],
             upcoming: true,
             success: true,
         })
-    )
+    );
+
     return launch
 }
 
-function abortLaunch(id) {
-    const abortedLaunch = launches.get(id)
+async function abortLaunch(flightNumber) {
 
-    abortedLaunch.upcoming = false
-    abortedLaunch.success = false
+    const abortedLaunchResult = await launchesdb.updateOne({flightNumber}, {
+        upcoming: false,
+        success: false,
+    });
 
-    return abortedLaunch
+    return abortedLaunchResult.acknowledged && abortedLaunchResult.modifiedCount === 1;
+}
+
+async function getLatestFlightNumber(){
+
+    // Sort in descending order then find the top flight num
+    const launchFlight = await launchesdb.findOne().sort('-flightNumber') // '-' signifies descending order
+
+    // if there was no filghtNumber meaning there are no lauches scheduled yet
+    if(! launchFlight) {
+        return 69; // first flightNumber
+    }
+
+    return launchFlight.flightNumber;
 }
 
 
 
-module.exports = { 
-    doesLaunchExist, 
-    getAllLaunches, 
-    addNewLaunch, 
-    abortLaunch 
+module.exports = {
+    doesLaunchExist,
+    getAllLaunches,
+    addNewLaunch,
+    abortLaunch
 }

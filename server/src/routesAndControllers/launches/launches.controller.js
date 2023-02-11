@@ -1,21 +1,30 @@
 const { getAllLaunches, addNewLaunch, abortLaunch } = require("../../model/launches.model")
 
-function httpGetAllLaunches(req, res) {
-    res.status(200).json(getAllLaunches())
+async function httpGetAllLaunches(req, res) {
+    res.status(200).json(await getAllLaunches())
 }
 
-function httpPostNewLaunch(req, res){
-    
-    const newLaunch = addNewLaunch(req.body)
-    res.status(201).json(newLaunch)
+async function httpPostNewLaunch(req, res) {
+
+    try {
+        const newLaunch = await addNewLaunch(req.body)
+        res.status(201).json(newLaunch)
+    } catch (error) {
+        res.status(400).json({success: false, msg: error.message});
+    }
+
 }
 
-function httpAbortLaunch(req, res){
+async function httpAbortLaunch(req, res) {
     const id = +req.params.id
 
-    const abortedLaunch = abortLaunch(id)
+    const wasAborted = await abortLaunch(id)
 
-    return res.status(200).json(abortedLaunch)
+    if(wasAborted){
+        return res.status(200).json({success: true, msg: "launch was aborted"});
+    }
+
+    return res.status(400).json({success: false, msg: "launch was not aborted"});
 }
 
 
