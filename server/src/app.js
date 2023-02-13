@@ -4,9 +4,7 @@ const cors = require('cors')
 const path = require('path') 
 const morgan = require('morgan')
 
-const planetsRouter = require('./routesAndControllers/planets/planets.router')
-const launchesRouter = require('./routesAndControllers/launches/launches.router')
-
+const apiV1 = require('./routesAndControllers/api.v1')
 
 const app = express()
 
@@ -18,8 +16,7 @@ app.use(morgan('tiny'))
 app.use( express.static(path.resolve(__dirname, '..', 'public')))
 
 app.use(express.json())
-app.use(planetsRouter)
-app.use(launchesRouter)
+app.use('/v1', apiV1)
 
 // Keep this at the end since it will return the frontend app for 
 // all routes 

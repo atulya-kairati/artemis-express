@@ -73,3 +73,7 @@ const launchSchema = new mongoose.Schema({
 // connects launchSchema with "launches" collection
 const launchesModel = mongoose.model('Launch', launchSchema); // The name given is lowercased then pluralized by mongo
 ```
+***
+
+Note:
+> It is a good idea to create a seperate test database and connect to that during a test.

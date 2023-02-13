@@ -1,5 +1,5 @@
 // Load planets and return as JSON.
-const URL = "http://localhost:8000"
+const URL = "http://localhost:8000/v1"
 
 async function httpGetPlanets() {
   const res = await fetch(`${URL}/planets`)
