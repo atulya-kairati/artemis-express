@@ -18,14 +18,14 @@ describe("All test", () => {
     describe("Test GET /launches", () => {
         test("HTTP response should be 200 OK", async () => {
             const response = await request(app)
-                .get('/launches')
+                .get('/v1/launches')
                 .expect(200)
 
         })
 
         test("Should return json content", async () => {
             const response = await request(app)
-                .get('/launches')
+                .get('/v1/launches')
                 .expect("Content-Type", /json/)
         })
     })
@@ -54,7 +54,7 @@ describe("All test", () => {
 
         test("HTTP response should be 200 and check if return is same same as request body", async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchData)
                 .expect(201)
                 .expect("Content-Type", /json/)
@@ -72,7 +72,7 @@ describe("All test", () => {
 
         test("Should catch missing required propertied error", async () => {
             const response = await request(app)
-                .post("/launches")
+                .post("/v1/launches")
                 .send(launchDataWithoutDate)
                 .expect(400)
                 .expect('Content-Type', /json/)
@@ -83,7 +83,7 @@ describe("All test", () => {
         test("Should catch invalid date error", async () => {
 
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchDataWithInvalidDate)
                 .expect(400)
                 .expect("Content-Type", /json/)

@@ -2,6 +2,7 @@ const http = require('http');
 const app = require('./app');
 
 const { loadAllPlanets } = require('./model/planets.model')
+const { loadSpaceXData } = require('./model/launches.model')
 
 const { connectToMongoCluster } = require('./services/mongo.connect');
 
@@ -14,6 +15,7 @@ async function startServer() {
 
     connectToMongoCluster();
     await loadAllPlanets()
+    await loadSpaceXData();
     // loading data before starting the server 
 
     server.listen(PORT, () => {
