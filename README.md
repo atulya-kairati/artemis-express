@@ -77,3 +77,10 @@ const launchesModel = mongoose.model('Launch', launchSchema); // The name given 
 
 Note:
 > It is a good idea to create a seperate test database and connect to that during a test.
+***
+
+- `.env` contains 
+```
+PORT=8000
+MONGO_URL=mongodb+srv://.......
+```
