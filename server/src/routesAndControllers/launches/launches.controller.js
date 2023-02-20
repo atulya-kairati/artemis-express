@@ -1,7 +1,9 @@
 const { getAllLaunches, addNewLaunch, abortLaunch } = require("../../model/launches.model")
+const { getPagination } = require("../../services/pagination")
 
 async function httpGetAllLaunches(req, res) {
-    res.status(200).json(await getAllLaunches())
+    const {skip, limit} = getPagination(req.query);
+    res.status(200).json(await getAllLaunches(skip, limit));
 }
 
 async function httpPostNewLaunch(req, res) {

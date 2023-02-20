@@ -34,8 +34,11 @@ async function doesLaunchExist(flightNumber) {
     return !! await launchesdb.findOne({ flightNumber });
 }
 
-async function getAllLaunches() {
-    return await launchesdb.find({}, { _id: 0, __v: 0 });
+async function getAllLaunches(skip, limit) {
+    return await launchesdb.find({}, { _id: 0, __v: 0 })
+        .sort({flightNumber: 1}) // sort in ascending order according to flight number
+        .skip(skip)
+        .limit(limit);
 }
 
 async function addNewLaunch(launch) {
@@ -99,7 +102,7 @@ async function getSpacexData() {
         }
     });
 
-    if(response.status !== 200){
+    if (response.status !== 200) {
         console.log("SpaceX data not loaded...");
         throw new Error("Wasn't able to fetch data from SpaceX Api");
     }
@@ -130,7 +133,7 @@ async function loadSpaceXData() {
 
         const launch = parseSpaceXLaunch(spacexLaunch)
 
-        saveLaunch(launch, fromSpaceX=true);
+        saveLaunch(launch, fromSpaceX = true);
     }
 }
 
