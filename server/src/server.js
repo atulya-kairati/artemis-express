@@ -1,4 +1,7 @@
 const http = require('http');
+
+require('dotenv').config() // called before all other local imports so the process.env is populated fo them too
+
 const app = require('./app');
 
 const { loadAllPlanets } = require('./model/planets.model')
