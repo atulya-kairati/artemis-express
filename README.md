@@ -79,7 +79,7 @@ Note:
 > It is a good idea to create a seperate test database and connect to that during a test.
 ***
 
-- `.env` contains 
+- `.env` contains (place it at the root of the server)
 ```
 PORT=8000
 MONGO_URL=mongodb+srv://.......
