@@ -84,3 +84,23 @@ Note:
 PORT=8000
 MONGO_URL=mongodb+srv://.......
 ```
+
+***
+
+##### Adding a self signed ssl certificate
+
+- Creating a self signed certificate
+```sh
+ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+```
+
+- Then pass the resulting `cert.pem` and `key.pem` to the server.
+```js
+const certificateOptions = {
+    cert: fs.readFileSync(path.resolve(__dirname, '..', 'cert.pem')),
+    key: fs.readFileSync(path.resolve(__dirname, '..', 'key.pem')),
+};
+
+const server = https.createServer(certificateOptions, app);
+```
+> Use `https` module to setup the server, not `http` module.
